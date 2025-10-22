@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react"
 
 const processSteps = [
   {
@@ -6,7 +6,7 @@ const processSteps = [
     title: "Consultation & Needs Assessment",
     description:
       "An initial discussion to determine fortification requirements, commodity specifications, or factory development needs; supported by market and regulatory analysis.",
-    image: "/sourcing.jpg",
+    image: "/consultation.jpg",
   },
   {
     number: "02",
@@ -43,21 +43,18 @@ const processSteps = [
       "For factory setups, this includes turnkey installation, process optimization, comprehensive training, and continuous after-sales support, ensuring long-term client success.",
     image: "/implementation.jpg",
   },
-];
+]
 
 export const ProcessSection = () => {
   return (
     <section id="process" className="relative py-20 px-4 md:px-8 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-[#1C506D]" />
+      <div className="absolute inset-0 bg-white" />
 
       <div className="relative max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">
-            Process and Value Chain
-          </h2>
-          <div className="w-24 h-1 bg-accent mx-auto rounded-full" />
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1C506D]">Process and Value Chain</h2>
+          <div className="w-24 h-1 bg-[#789FB3] mx-auto rounded-full" />
         </div>
 
         {/* Process Steps */}
@@ -66,10 +63,10 @@ export const ProcessSection = () => {
             <div key={step.number} className="group relative">
               {/* Connector Line */}
               {index < processSteps.length - 1 && (
-                <div className="absolute left-1/2 -bottom-8 w-0.5 h-8 bg-[1C506D] transform -translate-x-1/2 hidden md:block" />
+                <div className="absolute left-1/2 -bottom-8 w-0.5 h-8 bg-[#789FB3]/30 transform -translate-x-1/2 hidden md:block" />
               )}
 
-              <div className="relative bg-card rounded-2xl overflow-hidden shadow-[var(--shadow-navy)] hover:shadow-[var(--shadow-navy-lg)] transition-all duration-500 border border-[#1C506D]">
+              <div className="relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-500 border border-[#789FB3]/30">
                 <div className="grid md:grid-cols-2 gap-0">
                   {/* Content Side */}
                   <div
@@ -78,21 +75,15 @@ export const ProcessSection = () => {
                     }`}
                   >
                     <div className="inline-flex items-center gap-3 mb-4">
-                      <span className="text-6xl font-bold text-[#1C506D] bg-[#789FB3]">
-                        {step.number}
-                      </span>
-                      <CheckCircle2 className="w-8 h-8 text-[#789FB3]" />
+                      <span className="text-6xl font-bold text-white bg-[#1C506D] px-4 rounded">{step.number}</span>
+                      <CheckCircle2 className="w-8 h-8 text-[#1C506D]" />
                     </div>
 
-                    <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 group-hover:text-[#789FB3] transition-colors duration-300">
+                    <h3 className="text-2xl md:text-3xl font-bold text-[#1C506D] mb-4 group-hover:text-[#789FB3] transition-colors duration-300">
                       {step.title}
                     </h3>
 
-                    <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6">
-                      {step.description}
-                    </p>
-
-                    
+                    <p className="text-slate-600 text-base md:text-lg leading-relaxed mb-6">{step.description}</p>
                   </div>
 
                   {/* Image Side */}
@@ -101,17 +92,15 @@ export const ProcessSection = () => {
                       index % 2 === 0 ? "md:order-2" : "md:order-1"
                     }`}
                   >
-                    <div className="absolute inset-0 bg-[var(--gradient-navy)] opacity-10 group-hover:opacity-20 transition-opacity duration-500 z-10" />
+                    <div className="absolute inset-0 bg-[#1C506D]/10 opacity-10 group-hover:opacity-20 transition-opacity duration-500 z-10" />
                     <img
-                      src={step.image}
+                      src={step.image || "/placeholder.svg"}
                       alt={step.title}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
                     {/* Step number overlay */}
-                    <div className="absolute top-6 right-6 w-16 h-16 rounded-full bg-[#1C506D] backdrop-blur-sm flex items-center justify-center z-20">
-                      <span className="text-2xl font-bold text-primary-foreground">
-                        {step.number}
-                      </span>
+                    <div className="absolute top-6 right-6 w-16 h-16 rounded-full bg-[#789FB3] flex items-center justify-center z-20">
+                      <span className="text-2xl font-bold text-white">{step.number}</span>
                     </div>
                   </div>
                 </div>
@@ -122,14 +111,14 @@ export const ProcessSection = () => {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
-          <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl bg-[var(--gradient-navy)] text-primary-foreground">
+          <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl bg-gradient-to-r from-[#1C506D] to-[#789FB3] text-white">
             <h3 className="text-2xl font-bold">Ready to Start Your Journey?</h3>
-            <p className="text-primary-foreground/80 max-w-2xl">
+            <p className="text-white/90 max-w-2xl">
               Our comprehensive process ensures excellence at every step, from initial consultation to ongoing support.
             </p>
           </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
