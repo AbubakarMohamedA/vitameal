@@ -44,7 +44,7 @@ export const Navbar = () => {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <img
-                src="/vitameals-logo.webp"
+                src="/logo3.webp"
                 alt="Vitameals Africa"
                 className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
               />

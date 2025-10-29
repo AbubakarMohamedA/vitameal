@@ -117,28 +117,36 @@ const ProductsSection = () => {
 
         {/* Custom Tab Navigation */}
         <div className="flex justify-center mb-12">
-          <div className="overflow-x-auto pb-4">
-            <div className="inline-flex w-full min-w-max lg:w-auto bg-white border border-slate-200 p-2 rounded-2xl">
-              {products.map((product) => {
-                const TabIcon = product.icon
-                const isActive = product.id === activeTab
-                return (
-                  <button
-                    key={product.id}
-                    onClick={() => setActiveTab(product.id)}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-xl whitespace-nowrap transition-all duration-300
-                      ${isActive ? "bg-[#1C506D] text-white shadow-lg" : "text-slate-600 hover:text-slate-900"}
-                    `}
-                  >
-                    <TabIcon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{product.title.split("&")[0].trim()}</span>
-                    <span className="sm:hidden">{product.title.split(" ")[0]}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </div>
+  <div className="overflow-x-auto pb-4 hide-scrollbar">
+    <div className="inline-flex w-full min-w-max lg:w-auto bg-white border border-slate-200 p-2 rounded-2xl">
+      {products.map((product) => {
+        const TabIcon = product.icon
+        const isActive = product.id === activeTab
+        return (
+          <button
+            key={product.id}
+            onClick={() => setActiveTab(product.id)}
+            className={`flex items-center justify-center gap-1
+              px-6 py-3
+              sm:px-6 sm:py-3
+              xs:px-2 xs:py-1
+              rounded-xl
+              whitespace-nowrap
+              transition-all
+              duration-300
+              ${isActive ? "bg-[#1C506D] text-white shadow-lg" : "text-slate-600 hover:text-slate-900"}
+            `}
+          >
+            <TabIcon className="w-3 h-4 flex-shrink-0" />
+            <span className="hidden sm:inline text-sm">
+              {product.title.split("&")[0].trim()}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  </div>
+</div>
 
         {/* Custom Tab Content */}
         <div className="animate-fade-in">

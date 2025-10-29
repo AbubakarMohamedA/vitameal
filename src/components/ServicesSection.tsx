@@ -1,9 +1,9 @@
 "use client"
-
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Sparkles, ShieldCheck, Globe2, Boxes, FlaskConical, Factory, ArrowRight } from "lucide-react"
-
+import { ChevronRight } from "lucide-react"
 const services = [
   {
     id: 1,
@@ -61,10 +61,13 @@ const services = [
   },
 ]
 
+
+
 const ServicesSection = () => {
   const radius = 200
   const centerX = 300
   const centerY = 300
+  const [expandedId, setExpandedId] = useState<number | null>(null)
 
   return (
     <section id="services" className="relative py-12 lg:py-20 bg-white overflow-hidden">
@@ -93,70 +96,124 @@ const ServicesSection = () => {
         </div>
 
         {/* SVG Hexagon + Lines */}
-        <div className="relative w-full max-w-4xl mx-auto ">
-          <svg viewBox="0 0 600 600" className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <linearGradient id="hexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#1C506D" />
-                <stop offset="100%" stopColor="#789FB3" />
-              </linearGradient>
-            </defs>
 
-            <polygon
-              points="500,300 400,126.7949 200,126.7949 100,300 200,473.2051 400,473.2051"
-              fill="none"
-              stroke="url(#hexGradient)"
-              strokeWidth="2"
-              opacity="0.3"
-            />
+      {/* Desktop View (hidden on mobile) */}
+      <div className="hidden md:block relative w-full">
+        <svg viewBox="0 0 600 600" className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="hexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#1C506D" />
+              <stop offset="100%" stopColor="#789FB3" />
+            </linearGradient>
+          </defs>
 
-            {services.map((service) => {
-              const rad = (service.angle * Math.PI) / 180
-              const x = Number((centerX + radius * Math.cos(rad)).toFixed(4))
-              const y = Number((centerY + radius * Math.sin(rad)).toFixed(4))
+          <polygon
+            points="500,300 400,126.7949 200,126.7949 100,300 200,473.2051 400,473.2051"
+            fill="none"
+            stroke="url(#hexGradient)"
+            strokeWidth="2"
+            opacity="0.3"
+          />
 
-              return (
-                <line
-                  key={`line-${service.id}`}
-                  x1={centerX}
-                  y1={centerY}
-                  x2={x}
-                  y2={y}
-                  stroke="url(#hexGradient)"
-                  strokeWidth="1"
-                  opacity="0.2"
-                />
-              )
-            })}
-          </svg>
-
-          {/* Center Circle */}
-          <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-[#1C506D] to-[#789FB3] shadow-2xl flex items-center justify-center z-10"
-            style={{ pointerEvents: "none" }}
-          >
-            <div className="text-white text-center">
-              <div className="text-2xl font-bold">6</div>
-              <div className="text-xs opacity-90">Services</div>
-            </div>
-          </div>
-
-          {/* Service Cards */}
           {services.map((service) => {
             const rad = (service.angle * Math.PI) / 180
-            const xPct = Number((((centerX + radius * Math.cos(rad)) / 600) * 100).toFixed(4))
-            const yPct = Number((((centerY + radius * Math.sin(rad)) / 600) * 100).toFixed(4))
+            const x = Number((centerX + radius * Math.cos(rad)).toFixed(4))
+            const y = Number((centerY + radius * Math.sin(rad)).toFixed(4))
 
+            return (
+              <line
+                key={`line-${service.id}`}
+                x1={centerX}
+                y1={centerY}
+                x2={x}
+                y2={y}
+                stroke="url(#hexGradient)"
+                strokeWidth="1"
+                opacity="0.2"
+              />
+            )
+          })}
+        </svg>
+
+        {/* Center Circle */}
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-[#1C506D] to-[#789FB3] shadow-2xl flex items-center justify-center z-10"
+          style={{ pointerEvents: "none" }}
+        >
+          <div className="text-white text-center">
+            <div className="text-2xl font-bold">6</div>
+            <div className="text-xs opacity-90">Services</div>
+          </div>
+        </div>
+
+        {/* Service Cards */}
+        {services.map((service) => {
+          const rad = (service.angle * Math.PI) / 180
+          const xPct = Number((((centerX + radius * Math.cos(rad)) / 600) * 100).toFixed(4))
+          const yPct = Number((((centerY + radius * Math.sin(rad)) / 600) * 100).toFixed(4))
+
+          const IconComponent = service.icon
+
+          return (
+            <div
+              key={service.id}
+              className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-20"
+              style={{ left: `${xPct}%`, top: `${yPct}%` }}
+            >
+              <div className="relative">
+                <div className="relative w-32 h-32 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 group-hover:scale-110 border-4 border-white">
+                  <Image
+                    src={service.image || "/placeholder.svg"}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}
+                  />
+                </div>
+
+                <div
+                  className={`absolute -bottom-2 -right-2 w-12 h-12 rounded-full bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-lg group-hover:scale-125 transition-transform duration-300 border-4 border-white`}
+                >
+                  <IconComponent className="w-6 h-6" />
+                </div>
+
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30">
+                  <div className="bg-slate-900 text-white px-3 py-2 rounded-lg whitespace-nowrap text-sm font-semibold shadow-lg">
+                    {service.title} <br />
+                    {service.description}
+                  </div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Mobile View (hidden on desktop) */}
+      <div className="md:hidden">
+        <div className="space-y-4">
+          {services.map((service, index) => {
             const IconComponent = service.icon
+            const isExpanded = expandedId === service.id
 
             return (
               <div
                 key={service.id}
-                className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-20"
-                style={{ left: `${xPct}%`, top: `${yPct}%` }}
+                className="group"
+                style={{
+                  animation: `slideIn 0.5s ease-out ${index * 0.1}s both`,
+                }}
               >
-                <div className="relative">
-                  <div className="relative w-32 h-32 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 group-hover:scale-110 border-4 border-white">
+                <div
+                  onClick={() => setExpandedId(isExpanded ? null : service.id)}
+                  className={`relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 ${
+                    isExpanded ? "ring-2 ring-blue-500" : ""
+                  }`}
+                >
+                  <div className="relative h-48 w-full">
                     <Image
                       src={service.image || "/placeholder.svg"}
                       alt={service.title}
@@ -164,28 +221,68 @@ const ServicesSection = () => {
                       className="object-cover"
                     />
                     <div
-                      className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}
+                      className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-40 group-hover:opacity-50 transition-opacity duration-300`}
                     />
-                  </div>
-
-                  <div
-                    className={`absolute -bottom-2 -right-2 w-12 h-12 rounded-full bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-lg group-hover:scale-125 transition-transform duration-300 border-4 border-white`}
-                  >
-                    <IconComponent className="w-6 h-6" />
-                  </div>
-
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-30">
-                    <div className="bg-slate-900 text-white px-3 py-2 rounded-lg whitespace-nowrap text-sm font-semibold shadow-lg">
-                      {service.title} <br />
-                      {service.description}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 flex flex-col justify-between p-4">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="text-xl font-bold text-white mb-1">{service.title}</h3>
+                          {/* <p className="text-sm text-white/80">{service.description}</p> */}
+                        </div>
+                        <div
+                          className={`w-10 h-10 rounded-full bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-lg flex-shrink-0`}
+                        >
+                          <IconComponent className="w-5 h-5" />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">
+                          {isExpanded ? "Less" : "More"}
+                        </span>
+                        <ChevronRight
+                          className={`w-5 h-5 text-white transition-transform duration-300 ${
+                            isExpanded ? "rotate-90" : ""
+                          }`}
+                        />
+                      </div>
                     </div>
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
                   </div>
+
+                  {isExpanded && (
+                    <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-4 animate-in fade-in duration-300">
+                      <div className="space-y-3">
+                        <div>
+                          <h4 className="font-semibold text-sm mb-2 text-blue-400">Key Features</h4>
+                          <p className="text-sm text-white/80">{service.description}</p>
+                        </div>
+                        {/* <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 rounded-lg transition-all duration-300 text-sm">
+                          Learn More
+                        </button> */}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )
           })}
         </div>
+
+        <style jsx>{`
+          @keyframes slideIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
+      </div>
+    
+
 
         {/* CTA Section */}
         <div className="relative mt-20 bg-gradient-to-r from-[#1C506D] to-[#789FB3] rounded-3xl p-8 md:p-12 overflow-hidden">
